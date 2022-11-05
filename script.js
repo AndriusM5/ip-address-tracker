@@ -9,8 +9,20 @@ const submitBtn = document.getElementById("submitBtn");
 
 var locationX = 0;
 var locationY = 0;
+var map = L.map("map").setView([locationX, locationY], 13);
+var marker = L.marker([locationX, locationY]).addTo(map);
 
-function getData(api) {
+function loadMap(locationX, locationY) {
+  map.panTo(new L.LatLng(locationX, locationY));
+  marker.setLatLng([locationX, locationY]).update();
+  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 19,
+    attribution:
+      '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+  }).addTo(map);
+}
+
+function getData(api_url) {
   fetch(api_url).then(function (response) {
     response.json().then(function (data) {
       ipAddress.innerText = data.ip;
@@ -23,13 +35,7 @@ function getData(api) {
       isp.innerText = data.isp;
       locationX = data.location.lat;
       locationY = data.location.lng;
-      var map = L.map("map").setView([locationX, locationY], 13);
-      var marker = L.marker([locationX, locationY]).addTo(map);
-      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        maxZoom: 19,
-        attribution:
-          '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      }).addTo(map);
+      loadMap(locationX, locationY);
       console.log(data.location.lat + " " + data.location.lng);
     });
   });
@@ -40,7 +46,6 @@ function ValidateIPaddress(inputText) {
     /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
   if (inputText.match(ipformat)) {
     console.log("IP address valid");
-
     var inputIpAddress = inputText;
     getData(api_url + inputIpAddress);
   } else {
@@ -50,5 +55,3 @@ function ValidateIPaddress(inputText) {
 }
 
 document.addEventListener("load", getData(api_url));
-
-// submitBtn.addEventListener("click", ValidateIPaddress(inputText.value));
