@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./images/favicon-32x32.png"
+    />
+    <title>IP Address Tracker</title>
+    <link rel="stylesheet" href="reset.css" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css"
+      integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14="
+      crossorigin=""
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main>
+      <div class="tracker-wrap">
+        <h1>IP Address Tracker</h1>
+        <div class="submit-wrap">
+          <input
+            id="input-location"
+            type="text"
+            placeholder="IP Address"
+            value=""
+          />
+          <button id="submitBtn" onclick="ValidateIPaddress(inputText.value)">
+            <img src="./images/icon-arrow.svg" alt="Submit" />
+          </button>
+        </div>
+        <div class="data-wrap">
+          <div class="data-row">
+            <div class="data-column">
+              <p>Ip address</p>
+              <h2 id="ip-address">192.212.174.101</h2>
+            </div>
+            <div class="data-column">
+              <p>Location</p>
+              <h2 id="location">Brooklyn, NY 10001</h2>
+            </div>
+            <div class="data-column">
+              <p>Timezone</p>
+              <h2 id="timezone">UTC -05:00</h2>
+            </div>
+            <div class="data-column">
+              <p>ISP</p>
+              <h2 id="isp">SpaceX Starlink</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="map"></div>
+    </main>
+    <!-- <div class="attribution">
+      Challenge by
+      <a href="https://www.frontendmentor.io?ref=challenge" target="_blank"
+        >Frontend Mentor</a
+      >. Coded by <a href="#">Your Name Here</a>.
+    </div> -->
+    <script
+      src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js"
+      integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg="
+      crossorigin=""
+    ></script>
+    <script src="./script.js"></script>
+  </body>
+</html>
