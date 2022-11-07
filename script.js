@@ -1,5 +1,7 @@
-var api_url =
+const api_url_ip =
   "https://geo.ipify.org/api/v2/country,city?apiKey=at_Z6ger7V568jMt58TSJhHRWzDWCcis&ipAddress=";
+const api_url_domain =
+  "https://geo.ipify.org/api/v2/country,city?apiKey=at_Z6ger7V568jMt58TSJhHRWzDWCcis&domain=";
 const ipAddress = document.getElementById("ip-address");
 const locationAddress = document.getElementById("location");
 const timeZone = document.getElementById("timezone");
@@ -25,31 +27,42 @@ function loadMap(locationX, locationY) {
 function getData(api_url) {
   fetch(api_url).then(function (response) {
     response.json().then(function (data) {
-      ipAddress.innerText = data.ip;
-      locationAddress.innerText =
-        data.location.city +
-        " " +
-        data.location.postalCode +
-        data.location.country;
-      timeZone.innerText = "UTC " + data.location.timezone;
-      isp.innerText = data.isp;
-      locationX = data.location.lat;
-      locationY = data.location.lng;
-      loadMap(locationX, locationY);
+      if (data.hasOwnProperty("code")) {
+        alert("Domain is NOT valid");
+      } else {
+        console.log();
+        ipAddress.innerText = data.ip;
+        locationAddress.innerText =
+          data.location.city +
+          " " +
+          data.location.postalCode +
+          data.location.country;
+        timeZone.innerText = "UTC " + data.location.timezone;
+        isp.innerText = data.isp;
+        locationX = data.location.lat;
+        locationY = data.location.lng;
+        loadMap(locationX, locationY);
+      }
     });
   });
 }
 
 function ValidateIPaddress(inputText) {
-  var ipformat =
+  const ipformat =
     /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
   if (inputText.match(ipformat)) {
-    // console.log("IP address valid");
+    console.log("Trying to find IP");
     var inputIpAddress = inputText;
-    getData(api_url + inputIpAddress);
+    getData(api_url_ip + inputIpAddress);
   } else {
-    alert("IP address is not valid");
-    // console.log("IP address INVALID");
+    const domainformat =
+      /^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+$/;
+    if (inputText.match(domainformat)) {
+      getData(api_url_domain + inputText);
+      console.log("Trying to find Domain");
+    } else {
+      alert("Domain is NOT valid");
+    }
   }
 }
 
@@ -58,4 +71,4 @@ if (sWidth <= 1100) {
   map.zoomControl.remove();
 }
 
-document.addEventListener("load", getData(api_url));
+document.addEventListener("load", getData(api_url_ip));
