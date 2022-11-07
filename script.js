@@ -36,7 +36,6 @@ function getData(api_url) {
       locationX = data.location.lat;
       locationY = data.location.lng;
       loadMap(locationX, locationY);
-      console.log(data.location.lat + " " + data.location.lng);
     });
   });
 }
@@ -45,13 +44,18 @@ function ValidateIPaddress(inputText) {
   var ipformat =
     /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
   if (inputText.match(ipformat)) {
-    console.log("IP address valid");
+    // console.log("IP address valid");
     var inputIpAddress = inputText;
     getData(api_url + inputIpAddress);
   } else {
     alert("IP address is not valid");
-    console.log("IP address INVALID");
+    // console.log("IP address INVALID");
   }
+}
+
+var sWidth = window.innerWidth;
+if (sWidth <= 1100) {
+  map.zoomControl.remove();
 }
 
 document.addEventListener("load", getData(api_url));
